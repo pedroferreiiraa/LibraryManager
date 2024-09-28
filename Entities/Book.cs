@@ -1,31 +1,35 @@
-﻿namespace GerencimentoBiblioteca.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace GerencimentoBiblioteca.Entities;
 
 public class Book
 {
-    protected Book() {}
+    public Book() {}
     
-    public Book(int id, string titulo, string autor, string isbn, int anoDePublicacao)
+    public Book( string title, string author, string isbn, int publicationYear)
         : base()
     {
-        Id = id;
-        Titulo = titulo;
-        Autor = autor;
-        Isbn = isbn;
-        AnoDePublicacao = anoDePublicacao;
-    }
 
-    public int Id { get; set; }
-    public string Titulo { get; set; }
-    public string Autor { get; set; }
-    public string Isbn { get; set; }
-    public int AnoDePublicacao { get; set; }
-    
-    public void Update(string titulo, string autor, string isbn, int anoDePublicacao)
-    {
-        Titulo = titulo;
-        Autor = autor;
+        Title = title;
+        Author = author;
         Isbn = isbn;
-        AnoDePublicacao = anoDePublicacao;
+        PublicationYear = publicationYear;
+    }
+    
+    public Guid Id { get; set; } = Guid.NewGuid(); // Gera um novo Guid automaticamente
+
+    public string Title { get; set; }
+    public string Author { get; set; }
+    public string Isbn { get; set; }
+    public int PublicationYear { get; set; }
+    
+    public void Update(string title, string author, string isbn, int publicationYear)
+    {
+        Title = title;
+        Author = author;
+        Isbn = isbn;
+        PublicationYear = publicationYear;
     }
     
 }

@@ -4,21 +4,34 @@ namespace GerencimentoBiblioteca.Models;
 
 public class CreateBookInputModel
 {
-    public CreateBookInputModel(int id, string titulo, string autor, string isbn, int anoDePublicacao)
+    
+
+    
+    // Remova o campo Id do construtor, pois ele será gerado automaticamente.
+    public CreateBookInputModel(string title, string author, string isbn, int publicationYear)
     {
-        Id = id;
-        Titulo = titulo;
-        Autor = autor;
+        Title = title;
+        Author = author;
         Isbn = isbn;
-        AnoDePublicacao = anoDePublicacao;
+        PublicationYear = publicationYear;
     }
 
-    public int Id { get; set; }
-    public string Titulo { get; set; }
-    public string Autor { get; set; }
+    // Remova a propriedade Id, pois será gerada automaticamente no ToEntity()
+    // public Guid Id { get; set; }
+    public string Title { get; set; }
+    public string Author { get; set; }
     public string Isbn { get; set; }
-    public int AnoDePublicacao { get; set; }
+    public int PublicationYear { get; set; }
     
     public Book ToEntity()
-    => new (Id, Titulo, Autor, Isbn, AnoDePublicacao);
+    {
+        return new Book
+        {
+            Id = Guid.NewGuid(), // Gera um novo Guid
+            Title = this.Title,
+            Author = this.Author,
+            Isbn = this.Isbn,
+            PublicationYear=  this.PublicationYear
+        };
+    }
 }

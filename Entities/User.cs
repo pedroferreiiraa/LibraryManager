@@ -1,15 +1,28 @@
-﻿namespace GerencimentoBiblioteca.Entities;
+﻿using System.Text.Json.Serialization;
 
-public class User
+namespace BooksManagement.API.Entities
 {
-    public User(int id, string nome, string email)
+    public class User
     {
-        Id = id;
-        Nome = nome;
-        Email = email;
+        public User()
+        {
+            
+        }
+        public User(int modelId, string name, string email)
+        {
+            Name = name;
+            Email = email;
+        }
+
+        public Guid Id { get; set; } = Guid.NewGuid(); // Gera um novo Guid automaticamente
+        public string Name { get; private set; }
+        public string Email { get; private set; }
+
+        public void UpdateUser(string name, string email)
+        {
+            Name = name;
+            Email = email;
+        }
     }
 
-    public int Id { get; set; }
-    public string Nome { get; set; }
-    public string Email { get; set; }
 }

@@ -1,4 +1,4 @@
-﻿using GerencimentoBiblioteca.Entities;
+﻿using BooksManagement.API.Entities;
 using GerencimentoBiblioteca.Models;
 using GerencimentoBiblioteca.Persistence;
 using Microsoft.AspNetCore.Mvc;
@@ -17,9 +17,23 @@ public class UserController : ControllerBase
     {
         _context = context;
     }
+
+    [HttpGet]
+    public IActionResult Get()
+    {
+        var user = _context.Users.ToList();
+
+        if (user == null)
+        {
+            return NotFound("Usuários não encontrados");
+        }
+        
+        return Ok(user);
+
+    }
     
     [HttpGet("{id}")]
-    public IActionResult GetById(int id)
+    public IActionResult GetById(Guid id)
     {
         var user = _context.Users
             .SingleOrDefault(u => u.Id == id);
@@ -39,7 +53,7 @@ public class UserController : ControllerBase
     [HttpPost]
     public IActionResult Post(CreateUserInputModel model)
     {
-        var user = new User(model.Id, model.Nome, model.Email);
+            var user = new User(model.Id, model.Nome, model.Email);
         
         _context.Users.Add(user);
         _context.SaveChanges();
