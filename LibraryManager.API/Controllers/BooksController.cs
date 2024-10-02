@@ -1,6 +1,7 @@
-﻿using GerencimentoBiblioteca.Entities;
-using GerencimentoBiblioteca.Models;
+﻿using GerencimentoBiblioteca.Models;
 using GerencimentoBiblioteca.Persistence;
+using LibraryManager.Application.BooksCommands.InsertBook;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GerencimentoBiblioteca.Controllers;
@@ -10,17 +11,19 @@ namespace GerencimentoBiblioteca.Controllers;
 public class BooksController : ControllerBase
 {
     private readonly LibraryManagerDbContext _contexto;
+    private readonly IMediator _mediator;
 
     // Injeção de dependência
-    public BooksController(LibraryManagerDbContext contexto)
+    public BooksController(LibraryManagerDbContext contexto, IMediator mediator)
     {
         _contexto = contexto;
+        _mediator = mediator;
     }
 
     [HttpGet]
     public IActionResult Get()
     {
-        var livros = _contexto.Livros.ToList();
+        var livros = _contexto.Books.ToList();
         var model = livros.Select(l => BookViewModel.FromEntity(l)).ToList();
         return Ok(model);
     }
@@ -28,7 +31,7 @@ public class BooksController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult GetById(Guid id)
     {
-        var livro = _contexto.Livros.SingleOrDefault(l => l.Id == id);
+        var livro = _contexto.Books.SingleOrDefault(l => l.Id == id);
         
         if (livro != null)
         {
@@ -40,20 +43,17 @@ public class BooksController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult Post(CreateBookInputModel model)
+    public async  Task<IActionResult> Post(InsertBookCommand command)
     {
-        var book = model.ToEntity(); // Certifique-se de que o método ToEntity() está gerando um novo Guid para o Id.
+        var result = await _mediator.Send(command);
 
-        _contexto.Livros.Add(book);
-        _contexto.SaveChanges();
-        
-        return CreatedAtAction(nameof(GetById), new { id = book.Id }, model);
+        return Ok(result);
     }
 
     [HttpPut("{id}")]
     public IActionResult Put(Guid id, UpdatBookInputModel model)
     {
-        var book = _contexto.Livros.SingleOrDefault(l => l.Id == id);
+        var book = _contexto.Books.SingleOrDefault(l => l.Id == id);
 
         if (book == null)
         {
@@ -61,7 +61,7 @@ public class BooksController : ControllerBase
         }
         
         book.Update(model.Titulo, model.Autor, model.Isbn, model.AnoDePublicacao);
-        _contexto.Livros.Update(book);
+        _contexto.Books.Update(book);
         _contexto.SaveChanges();
         return NoContent();
     }
@@ -69,14 +69,14 @@ public class BooksController : ControllerBase
     [HttpDelete("{id}")]
     public IActionResult Delete(Guid id)
     {
-        var livro = _contexto.Livros.SingleOrDefault(e => e.Id == id);
+        var livro = _contexto.Books.SingleOrDefault(e => e.Id == id);
 
         if (livro == null)
         {
             return NotFound();
         }
         
-        _contexto.Livros.Remove(livro);
+        _contexto.Books.Remove(livro);
         _contexto.SaveChanges();
         
         return NoContent();

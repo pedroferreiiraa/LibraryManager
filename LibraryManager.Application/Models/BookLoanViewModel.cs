@@ -1,6 +1,8 @@
-﻿public class BookLoanViewModel
+﻿using LibraryManager.Core.Entities;
+
+public class BookLoanViewModel
 {
-    public Guid Id { get; set; } // Altere para Guid
+    public int Id { get; set; } // Altere para Guid
     public Guid IdClient { get; set; } // Altere para Guid
     public Guid IdBook { get; set; } // Altere para Guid
     public DateTime LoanDate { get; set; }

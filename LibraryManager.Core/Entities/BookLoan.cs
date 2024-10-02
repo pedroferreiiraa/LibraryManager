@@ -1,9 +1,7 @@
-﻿using BooksManagement.API.Entities;
-using GerencimentoBiblioteca.Entities;
+﻿namespace LibraryManager.Core.Entities;
 
 public class BookLoan
 {
-    // Construtor vazio para o EF Core
     private BookLoan() { }
 
     public BookLoan(User client, Book book)
@@ -20,7 +18,7 @@ public class BookLoan
         Book = book;
     }
 
-    public Guid Id { get; private set; }
+    public int Id { get; private set; }
     public Guid IdClient { get; private set; }
 
     public User? Client { get; private set; }

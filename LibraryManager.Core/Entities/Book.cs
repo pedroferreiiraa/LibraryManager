@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-
-namespace GerencimentoBiblioteca.Entities;
+﻿namespace LibraryManager.Core.Entities;
 
 public class Book
 {
@@ -31,5 +28,4 @@ public class Book
         Isbn = isbn;
         PublicationYear = publicationYear;
     }
-    
 }

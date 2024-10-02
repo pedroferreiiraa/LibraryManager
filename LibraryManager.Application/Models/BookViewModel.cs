@@ -1,4 +1,5 @@
-﻿using GerencimentoBiblioteca.Entities;
+﻿
+using LibraryManager.Core.Entities;
 
 namespace GerencimentoBiblioteca.Models;
 

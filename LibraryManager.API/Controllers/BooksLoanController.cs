@@ -1,5 +1,6 @@
 ﻿using GerencimentoBiblioteca.Models;
 using GerencimentoBiblioteca.Persistence;
+using LibraryManager.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
@@ -28,7 +29,7 @@ public class BooksLoanController : ControllerBase
     [HttpPost]
     public IActionResult CreateBookLoan(CreateBookLoanInputModel model)
     {
-        var book = _contexto.Livros.Find(model.IdBook);
+        var book = _contexto.Books.Find(model.IdBook);
         var user = _contexto.Users.Find(model.IdClient);
 
         if (book == null || user == null)

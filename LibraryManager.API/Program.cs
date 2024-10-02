@@ -1,9 +1,11 @@
 using GerencimentoBiblioteca.Persistence;
 using Microsoft.EntityFrameworkCore;
+using LibraryManager.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

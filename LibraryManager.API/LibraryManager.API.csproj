@@ -21,4 +21,10 @@
       <Compile Remove="Models\UpdateBookInputModel.cs" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\LibraryManager.Application\LibraryManager.Application.csproj" />
+      <ProjectReference Include="..\LibraryManager.Core\LibraryManager.Core.csproj" />
+      <ProjectReference Include="..\LibraryManager.Infrastructure\LibraryManager.Infrastructure.csproj" />
+    </ItemGroup>
+
 </Project>

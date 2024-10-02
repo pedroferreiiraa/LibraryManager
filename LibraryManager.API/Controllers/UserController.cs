@@ -1,6 +1,7 @@
-﻿using BooksManagement.API.Entities;
+﻿
 using GerencimentoBiblioteca.Models;
 using GerencimentoBiblioteca.Persistence;
+using LibraryManager.Core.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GerencimentoBiblioteca.Controllers;

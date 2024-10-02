@@ -1,5 +1,5 @@
-﻿using BooksManagement.API.Entities;
-using GerencimentoBiblioteca.Entities;
+﻿
+using LibraryManager.Core.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace GerencimentoBiblioteca.Persistence;
@@ -11,9 +11,11 @@ public class LibraryManagerDbContext : DbContext
     {
     }
     
-    public DbSet<Book> Livros { get; set; }
+    public DbSet<Book> Books { get; set; }
     public DbSet<User> Users { get; set; }
     public DbSet<BookLoan> BookLoans { get; set; }
+ 
+
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
