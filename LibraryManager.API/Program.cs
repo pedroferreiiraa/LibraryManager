@@ -12,7 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Adicionando o DbContext com o banco de dados InMemory
+
 builder.Services.AddDbContext<LibraryManagerDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("LibraryManager")));
 
