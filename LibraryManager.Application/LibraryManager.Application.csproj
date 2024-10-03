@@ -16,13 +16,14 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="BooksCommands\DeleteBook\" />
-      <Folder Include="BooksCommands\UpdateBook\" />
       <Folder Include="BooksLoansCommands\" />
       <Folder Include="BooksLoansQueries\" />
-      <Folder Include="BooksQueries\" />
       <Folder Include="UsersCommands\" />
       <Folder Include="UsersQueries\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="BooksQueries\GetAllBooks.cs" />
     </ItemGroup>
 
 </Project>

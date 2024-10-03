@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryManager.Infraestructure.Persistence.Migrations
 {
     [DbContext(typeof(LibraryManagerDbContext))]
-    [Migration("20241002101434_PrimeiraMigration")]
+    [Migration("20241003084023_PrimeiraMigration")]
     partial class PrimeiraMigration
     {
         /// <inheritdoc />
@@ -34,6 +34,9 @@ namespace LibraryManager.Infraestructure.Persistence.Migrations
                     b.Property<string>("Author")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Isbn")
                         .IsRequired()

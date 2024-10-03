@@ -12,6 +12,7 @@ public class Book
         Author = author;
         Isbn = isbn;
         PublicationYear = publicationYear;
+        IsDeleted = false;
     }
     
     public Guid Id { get; set; } = Guid.NewGuid(); // Gera um novo Guid automaticamente
@@ -21,6 +22,8 @@ public class Book
     public string Isbn { get; set; }
     public int PublicationYear { get; set; }
     
+    public bool IsDeleted { get;  set; }
+    
     public void Update(string title, string author, string isbn, int publicationYear)
     {
         Title = title;
@@ -28,4 +31,11 @@ public class Book
         Isbn = isbn;
         PublicationYear = publicationYear;
     }
+
+    public void SetAsDeleted()
+    {
+        IsDeleted = true;
+    }
+    
+    
 }

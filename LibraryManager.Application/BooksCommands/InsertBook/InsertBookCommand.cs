@@ -4,7 +4,7 @@ using MediatR;
 
 namespace LibraryManager.Application.BooksCommands.InsertBook;
 
-public class InsertBookCommand : IRequest<ResultViewModel<int>>, IRequest<ResultViewModel<Guid>>
+public class InsertBookCommand :  IRequest<ResultViewModel<Guid>>
 {
     public Guid Id { get; set; } = Guid.NewGuid(); // Gera um novo Guid automaticamente
 

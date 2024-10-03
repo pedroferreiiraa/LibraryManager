@@ -1,6 +1,10 @@
 ﻿using GerencimentoBiblioteca.Models;
 using GerencimentoBiblioteca.Persistence;
+using LibraryManager.Application.BooksCommands.DeleteBook;
 using LibraryManager.Application.BooksCommands.InsertBook;
+using LibraryManager.Application.BooksCommands.UpdateBook;
+using LibraryManager.Application.BooksQueries.GetAllBooks;
+using LibraryManager.Application.BooksQueries.GetBookById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,25 +25,19 @@ public class BooksController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult Get()
+    public async Task<IActionResult> Get()
     {
-        var livros = _contexto.Books.ToList();
-        var model = livros.Select(l => BookViewModel.FromEntity(l)).ToList();
-        return Ok(model);
+        var query = new GetAllBooksQuery();
+        var result = await _mediator.Send(query);
+        return Ok(result);
     }
     
     [HttpGet("{id}")]
-    public IActionResult GetById(Guid id)
+    public async Task<IActionResult> GetById(Guid id)
     {
-        var livro = _contexto.Books.SingleOrDefault(l => l.Id == id);
-        
-        if (livro != null)
-        {
-            var model = BookViewModel.FromEntity(livro);
-            return Ok(model);
-        }
-
-        return NotFound(); // Retorna NotFound se o livro não for encontrado
+        var query = new GetBookByIdQuery(id);
+        var result = await _mediator.Send(query);
+        return Ok(result);
     }
 
     [HttpPost]
@@ -51,35 +49,19 @@ public class BooksController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public IActionResult Put(Guid id, UpdatBookInputModel model)
+    public async Task<IActionResult> Put(UpdateBookCommand command)
     {
-        var book = _contexto.Books.SingleOrDefault(l => l.Id == id);
+        var result = await _mediator.Send(command);
 
-        if (book == null)
-        {
-            return NotFound();
-        }
-        
-        book.Update(model.Titulo, model.Autor, model.Isbn, model.AnoDePublicacao);
-        _contexto.Books.Update(book);
-        _contexto.SaveChanges();
-        return NoContent();
+        return Ok(result);
     }
     
     [HttpDelete("{id}")]
-    public IActionResult Delete(Guid id)
+    public async  Task<IActionResult> Delete(DeleteBookCommand command)
     {
-        var livro = _contexto.Books.SingleOrDefault(e => e.Id == id);
-
-        if (livro == null)
-        {
-            return NotFound();
-        }
+        var result = await _mediator.Send(command);
         
-        _contexto.Books.Remove(livro);
-        _contexto.SaveChanges();
-        
-        return NoContent();
+        return Ok(result);
     }
 }
 

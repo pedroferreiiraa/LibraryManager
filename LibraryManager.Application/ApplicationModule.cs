@@ -1,25 +1,26 @@
 ﻿using LibraryManager.Application.BooksCommands.InsertBook;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace LibraryManager.Application;
-
-public static class ApplicationModule
+namespace LibraryManager.Application
 {
-    public static IServiceCollection AddApplication(this IServiceCollection services)
+    public static class ApplicationModule
     {
-        services
-            .AddHandlers();
+        public static IServiceCollection AddApplication(this IServiceCollection services)
+        {
+            services
+                .AddHandlers();
 
-        return services;
-    }
+            return services;
+        }
         
 
-    private static IServiceCollection AddHandlers(this IServiceCollection services)
-    {
-        services.AddMediatR(config =>
-            config.RegisterServicesFromAssemblyContaining<InsertBookCommand>()
-        );
+        private static IServiceCollection AddHandlers(this IServiceCollection services)
+        {
+            services.AddMediatR(config =>
+                config.RegisterServicesFromAssemblyContaining<InsertBookCommand>()
+            );
 
-        return services;
+            return services;
+        }
     }
 }

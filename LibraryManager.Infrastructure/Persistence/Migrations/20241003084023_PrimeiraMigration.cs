@@ -19,7 +19,8 @@ namespace LibraryManager.Infraestructure.Persistence.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Author = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Isbn = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PublicationYear = table.Column<int>(type: "int", nullable: false)
+                    PublicationYear = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
