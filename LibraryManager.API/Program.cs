@@ -16,10 +16,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
-builder.Services.AddDbContext<LibraryManagerDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("LibraryManager")));
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

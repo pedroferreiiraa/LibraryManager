@@ -8,6 +8,7 @@ namespace LibraryManager.Application.BooksCommands.InsertBook;
 public class InsertBookHandler : IRequestHandler<InsertBookCommand, ResultViewModel<Guid>>
 {
     private readonly LibraryManagerDbContext _context;
+    
 
     // Injeção de dependência
     public InsertBookHandler(LibraryManagerDbContext context)
