@@ -16,13 +16,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="BooksLoansCommands\" />
-      <Folder Include="BooksLoansQueries\" />
-      <Folder Include="UsersCommands\" />
-      <Folder Include="UsersQueries\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Compile Remove="BooksQueries\GetAllBooks.cs" />
     </ItemGroup>
 

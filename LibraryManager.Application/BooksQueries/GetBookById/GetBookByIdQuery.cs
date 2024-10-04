@@ -6,9 +6,9 @@ namespace LibraryManager.Application.BooksQueries.GetBookById;
 
 public class GetBookByIdQuery : IRequest<ResultViewModel<BookViewModel>>
 {
-    public GetBookByIdQuery(Guid Id)
+    public GetBookByIdQuery(Guid id)
     {
-        Id = Id;
+        Id = id;
     }
 
     public Guid Id { get; set; }

@@ -1,6 +1,12 @@
 ﻿using GerencimentoBiblioteca.Models;
 using GerencimentoBiblioteca.Persistence;
+using LibraryManager.Application.BooksLoansCommands.InsertBooksLoans;
+using LibraryManager.Application.BooksLoansCommands.InsertBooksLoansDevolutions;
+using LibraryManager.Application.BooksLoansCommands.InsertBooksLoansReturns;
+using LibraryManager.Application.BooksLoansQueries.GetAllBooksLoans;
+using LibraryManager.Application.BooksLoansQueries.GetAllBooksLoansStatus;
 using LibraryManager.Core.Entities;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
@@ -11,88 +17,60 @@ namespace GerencimentoBiblioteca.Controllers;
 public class BooksLoanController : ControllerBase
 {
     private readonly LibraryManagerDbContext _contexto;
+    private readonly IMediator _mediator;
 
     // Injeção de dependência
-    public BooksLoanController(LibraryManagerDbContext contexto)
+    public BooksLoanController(LibraryManagerDbContext contexto , IMediator mediator)
     {
         _contexto = contexto;
+        _mediator = mediator;
     }
 
     [HttpGet]
-    public IActionResult GetAll()
+    public async Task<IActionResult> GetAll()
     {
-        var bookloan = _contexto.BookLoans.ToList();
+        var query = new GetAllBooksLoansQuery();
+        var result = await _mediator.Send(query);
         
-        return Ok(bookloan);
+        return Ok(result);
     }
     
-    [HttpPost]
-    public IActionResult CreateBookLoan(CreateBookLoanInputModel model)
+[HttpPost]
+public async Task<IActionResult> CreateBookLoan(InsertBookLoanCommand command)
+{
+    try
     {
-        var book = _contexto.Books.Find(model.IdBook);
-        var user = _contexto.Users.Find(model.IdClient);
-
-        if (book == null || user == null)
-        {
-            return NotFound("Livro ou usuário não encontrados");
-        }
-
-        var bookLoan = new BookLoan(user, book);
-        _contexto.BookLoans.Add(bookLoan);
-        _contexto.SaveChanges();
-        
-        return CreatedAtAction(nameof(CreateBookLoan), new { id = bookLoan.Id }, bookLoan);
+        var bookLoanId = await _mediator.Send(command);
+        return CreatedAtAction(nameof(CreateBookLoan), new { id = bookLoanId }, null);
     }
+    catch (Exception ex)
+    {
+        return NotFound(ex.Message);
+    }
+}
 
     [HttpPut("{id}/devolution")]
-    public IActionResult SetDevolutionDate(Guid id, DateTime date)
+    public async Task<IActionResult> SetDevolutionDate(InsertBookLoanDevolutionCommand command)
     {
-        var bookLoan = _contexto.BookLoans.Find(id);
-        if (bookLoan == null)
-        {
-            return NotFound("Empréstimo não encontrado");
-        }
-        
-        bookLoan.SetDevolutionDate(date);
-        _contexto.SaveChanges();
-
-        return NoContent();
+        var result  = await _mediator.Send(command);
+        return Ok(result);
     }
 
     [HttpPut("{id}/return")]
-    public IActionResult ReturnBookLoan(Guid id)
+    public async Task<IActionResult> ReturnBookLoan(InsertBookLoanReturnCommand command)
     {
-        var bookLoan = _contexto.BookLoans.Find(id);
-        if (bookLoan == null)
-        {
-            return NotFound("Empréstimo não encontrado");
-        }
-        
-        _contexto.BookLoans.Remove(bookLoan);
-        _contexto.SaveChanges();
-        
-        return NoContent();
+      var result  = await _mediator.Send(command);
+      return Ok(result);
     }
 
     [HttpGet("{id}/status")]
-    public IActionResult GetBookLoanStatus(Guid id)
+    public async Task<IActionResult> GetBookLoanStatus()
     {
-        var bookLoan = _contexto.BookLoans.Find(id);
-        if (bookLoan == null)
-        {
-            return NotFound("Empréstimo não encontrado");
-        }
+        var query = new GetAllBooksLoansQuery();
+        var result = await _mediator.Send(query);
         
-        var daysLate = (DateTime.Now - bookLoan.Devolution).Days;
-        if (daysLate > 0)
-        {
-            return Ok($"O livro está {daysLate} dias atrasado.");
-        }
-        else
-        {
-            return Ok("O livro está em dia.");
-        }
-        
+        return Ok(result);
+
     }
     
     
